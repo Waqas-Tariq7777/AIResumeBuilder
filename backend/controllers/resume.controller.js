@@ -6,7 +6,7 @@ import cloudinary from "../utils/cloudinary.js";
 import { getCachedResume, setCachedResume, deleteCachedResume } from "../utils/resumeCache.js";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const { PDFParse } = require("pdf-parse");
+const pdfParse = require("pdf-parse");
 const mammoth = require("mammoth");
 
 // @desc Create a new resume
@@ -203,10 +203,8 @@ const uploadExistingResume = asyncHandler(async (req, res) => {
 
     try {
         if (mimetype === "application/pdf") {
-            const parser = new PDFParse({ data: buffer });
-            const result = await parser.getText();
+            const result = await pdfParse(buffer);
             rawText = result.text;
-            await parser.destroy();
         } else if (
             mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
             mimetype === "application/msword"
