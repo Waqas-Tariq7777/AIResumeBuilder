@@ -280,43 +280,57 @@ ${rawText}
 `;
 
     let structuredData;
-    try {
-        console.log("Sending text to Gemini for structuring...");
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    contents: [
-                        {
-                            parts: [
-                                {
-                                    text: promptText
-                                }
-                            ]
-                        }
-                    ]
-                })
-            }
-        );
+    const models = ["gemini-2.5-flash", "gemini-3.5-flash"];
+    let lastError = null;
+    let responseText = null;
 
-        if (!response.ok) {
-            const errData = await response.json();
-            throw new ApiError(
-                response.status,
-                errData?.error?.message || "Error response from Gemini API"
+    for (const model of models) {
+        try {
+            console.log(`Sending text to Gemini for structuring using model: ${model}...`);
+            const response = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        contents: [
+                            {
+                                parts: [
+                                    {
+                                        text: promptText
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                }
             );
-        }
 
-        const data = await response.json();
-        const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!responseText) {
-            throw new ApiError(500, "Failed to retrieve parsed data from Gemini API response");
-        }
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData?.error?.message || `HTTP error ${response.status} from Gemini API`);
+            }
 
+            const data = await response.json();
+            const textResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (textResponse) {
+                responseText = textResponse;
+                break;
+            }
+        } catch (err) {
+            console.warn(`Failed to parse content with ${model}:`, err.message);
+            lastError = err;
+        }
+    }
+
+    if (!responseText) {
+        console.error("Gemini AI Resume Parsing Error: All models failed.", lastError?.message);
+        throw new ApiError(500, `Failed to parse resume content using AI: ${lastError?.message || "All models failed"}`);
+    }
+
+    try {
         // Clean up markdown block if Gemini wraps it in ```json ... ```
         let cleanedJsonText = responseText.trim();
         if (cleanedJsonText.startsWith("```json")) {
@@ -331,8 +345,8 @@ ${rawText}
 
         structuredData = JSON.parse(cleanedJsonText);
     } catch (err) {
-        console.error("Gemini AI Resume Parsing Error:", err);
-        throw new ApiError(500, `Failed to parse resume content using AI: ${err.message}`);
+        console.error("JSON Parsing Error of Gemini response:", err);
+        throw new ApiError(500, `Failed to parse response JSON from AI: ${err.message}`);
     }
 
     // Default template and colors if not set
