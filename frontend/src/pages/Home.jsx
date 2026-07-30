@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import InteractiveEnhancer from '../components/InteractiveEnhancer';
@@ -131,12 +130,12 @@ export default function Home() {
 
               {/* Premium Interactive CTAs */}
               <div className="flex flex-wrap gap-2.5 pt-2">
-                <Link
-                  to="/login"
+                <a
+                  href="#demo"
                   className="rounded-xl sm:rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 px-3 py-2.5 min-[320px]:px-4 min-[320px]:py-3 sm:px-8 sm:py-4.5 text-[10px] min-[320px]:text-xs sm:text-sm font-extrabold uppercase tracking-widest text-white shadow-xl shadow-emerald-500/15 hover:shadow-emerald-500/25 hover:scale-[1.03] active:scale-95 transition-all duration-300"
                 >
                   Create My Resume
-                </Link>
+                </a>
                 <a
                   href="#features"
                   className="rounded-xl sm:rounded-2xl border border-zinc-800 bg-zinc-900/35 backdrop-blur-md px-3 py-2.5 min-[320px]:px-4 min-[320px]:py-3 sm:px-8 sm:py-4.5 text-[10px] min-[320px]:text-xs sm:text-sm font-extrabold uppercase tracking-widest text-zinc-300 hover:bg-zinc-800 hover:text-white hover:scale-[1.03] active:scale-95 transition-all duration-300"
@@ -336,87 +335,27 @@ export default function Home() {
               <div key={idx} className="group relative rounded-3xl border border-zinc-850 bg-zinc-900/10 p-3 min-[320px]:p-5 transition-all duration-500 hover:border-zinc-750 hover:bg-zinc-900/20 hover:scale-[1.01] hover:shadow-[0_24px_60px_-15px_rgba(0,0,0,0.8)]">
                 
                 {/* Template Mockup display inside parent grid */}
-                <div className="relative aspect-[4/5] rounded-2xl bg-zinc-950 border border-zinc-900 overflow-hidden shadow-[inset_0_4px_30px_rgba(0,0,0,0.8)] transition-all">
+                <div className="relative aspect-[4/5] rounded-2xl bg-zinc-950 border border-zinc-900 p-3 min-[320px]:p-5 flex flex-col gap-3 min-[320px]:gap-4 overflow-hidden shadow-[inset_0_4px_30px_rgba(0,0,0,0.8)] transition-all">
                   
-                  {idx === 0 && (
-                    <div className="flex h-full w-full gap-1 p-2 text-[5px]">
-                      {/* Left column / Sidebar */}
-                      <div className="w-[32%] bg-zinc-900/80 p-1.5 flex flex-col gap-1.5 rounded-l-xl border-r border-zinc-800">
-                        <div className="w-5 h-5 rounded-full bg-zinc-850 mx-auto border border-emerald-500/30"></div>
-                        <div className="h-1 w-8 bg-zinc-800 mx-auto rounded-sm"></div>
-                        <div className="space-y-1 mt-1 text-[4px] text-zinc-500">
-                          <div className="h-0.5 w-full bg-zinc-800 rounded-sm"></div>
-                          <div className="h-0.5 w-5/6 bg-zinc-800 rounded-sm"></div>
-                          <div className="h-0.5 w-4/5 bg-zinc-800 rounded-sm"></div>
-                        </div>
-                      </div>
-                      {/* Right column */}
-                      <div className="flex-1 p-1.5 flex flex-col gap-1.5">
-                        <div className="h-2 w-16 bg-zinc-800 rounded-sm"></div>
-                        <div className="h-1.5 w-24 bg-emerald-500/10 rounded-sm"></div>
-                        <div className="space-y-1 mt-1">
-                          <div className="h-1.5 w-10 bg-zinc-800 rounded-sm"></div>
-                          <div className="h-0.5 w-full bg-zinc-900 rounded-sm"></div>
-                          <div className="h-0.5 w-full bg-zinc-900 rounded-sm"></div>
-                          <div className="h-0.5 w-5/6 bg-zinc-900 rounded-sm"></div>
-                        </div>
-                        <div className="space-y-1 mt-1">
-                          <div className="h-1.5 w-12 bg-zinc-800 rounded-sm"></div>
-                          <div className="h-0.5 w-full bg-zinc-900 rounded-sm"></div>
-                          <div className="h-0.5 w-full bg-zinc-900 rounded-sm"></div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {idx === 1 && (
-                    <div className="flex flex-col h-full w-full p-3 text-[5px] gap-2.5">
-                      {/* Header */}
-                      <div className="text-center space-y-1 border-b border-zinc-900 pb-2">
-                        <div className="h-2.5 w-20 bg-zinc-800 mx-auto rounded-sm"></div>
-                        <div className="h-1.5 w-32 bg-zinc-900 mx-auto rounded-sm"></div>
-                      </div>
-                      {/* Body */}
-                      <div className="space-y-1">
-                        <div className="h-1.5 w-12 bg-emerald-500/20 rounded-sm"></div>
-                        <div className="flex gap-1">
-                          <span className="px-1 py-0.5 bg-zinc-900 text-zinc-500 rounded-sm border border-zinc-850">React</span>
-                          <span className="px-1 py-0.5 bg-zinc-900 text-zinc-500 rounded-sm border border-zinc-850">Node</span>
-                          <span className="px-1 py-0.5 bg-zinc-900 text-zinc-500 rounded-sm border border-zinc-850">Mongo</span>
-                        </div>
-                      </div>
-                      <div className="space-y-1 mt-1">
-                        <div className="h-1.5 w-16 bg-zinc-800 rounded-sm"></div>
-                        <div className="space-y-1">
-                          <div className="h-0.5 w-full bg-zinc-900 rounded-sm"></div>
-                          <div className="h-0.5 w-11/12 bg-zinc-900 rounded-sm"></div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {idx === 2 && (
-                    <div className="flex flex-col h-full w-full text-[5px] gap-1.5">
-                      {/* Large visual banner */}
-                      <div className="h-12 bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 p-2 flex flex-col justify-end">
-                        <div className="h-2.5 w-20 bg-white/20 rounded-sm"></div>
-                        <div className="h-1.5 w-28 bg-white/10 rounded-sm mt-0.5"></div>
-                      </div>
-                      {/* Grid body */}
-                      <div className="grid grid-cols-2 gap-1.5 p-2">
-                        <div className="space-y-1 rounded bg-zinc-900 p-1.5 border border-zinc-850">
-                          <div className="h-1.5 w-10 bg-emerald-500/20 rounded-sm"></div>
-                          <div className="h-0.5 w-full bg-zinc-800 rounded-sm"></div>
-                          <div className="h-0.5 w-5/6 bg-zinc-800 rounded-sm"></div>
-                        </div>
-                        <div className="space-y-1 rounded bg-zinc-900 p-1.5 border border-zinc-850">
-                          <div className="h-1.5 w-10 bg-emerald-500/20 rounded-sm"></div>
-                          <div className="h-0.5 w-full bg-zinc-800 rounded-sm"></div>
-                          <div className="h-0.5 w-5/6 bg-zinc-800 rounded-sm"></div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  {/* Mock Page layouts */}
+                  <div className="h-5 w-1/3 rounded bg-zinc-900"></div>
+                  <div className="flex gap-2">
+                    <div className="h-2.5 w-12 rounded bg-zinc-900"></div>
+                    <div className="h-2.5 w-20 rounded bg-zinc-900"></div>
+                    <div className="h-2.5 w-10 rounded bg-zinc-900"></div>
+                  </div>
+                  <hr className="border-zinc-900" />
+                  <div className="space-y-2">
+                    <div className="h-4 w-1/4 rounded bg-zinc-800/80"></div>
+                    <div className="h-2.5 w-full rounded bg-zinc-900"></div>
+                    <div className="h-2.5 w-full rounded bg-zinc-900"></div>
+                    <div className="h-2.5 w-11/12 rounded bg-zinc-900"></div>
+                  </div>
+                  <div className="space-y-2 mt-4">
+                    <div className="h-4 w-1/3 rounded bg-zinc-800/80"></div>
+                    <div className="h-2.5 w-full rounded bg-zinc-900"></div>
+                    <div className="h-2.5 w-5/6 rounded bg-zinc-900"></div>
+                  </div>
                   
                   {/* Absolute Badge */}
                   <span className="absolute top-4 right-4 text-[9px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full border border-emerald-500/25 bg-emerald-500/10 text-emerald-400">
@@ -425,12 +364,12 @@ export default function Home() {
 
                   {/* Glassy hover slide up panel */}
                   <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
-                    <Link 
-                      to="/login"
+                    <a 
+                      href="#demo"
                       className="rounded-xl bg-emerald-500 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-emerald-600 transition-transform active:scale-95 hover:scale-105"
                     >
                       Use Template
-                    </Link>
+                    </a>
                   </div>
                 </div>
 
@@ -520,12 +459,12 @@ export default function Home() {
             </p>
             
             <div className="mt-8 min-[320px]:mt-10 flex justify-center">
-              <Link
-                to="/login"
+              <a
+                href="#demo"
                 className="rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-4 min-[320px]:px-10 min-[320px]:py-5 text-[10px] min-[320px]:text-xs font-extrabold uppercase tracking-widest text-white shadow-xl shadow-emerald-500/15 hover:shadow-emerald-500/25 hover:scale-[1.03] active:scale-95 transition-all duration-300"
               >
                 Get Started For Free
-              </Link>
+              </a>
             </div>
           </div>
         </div>

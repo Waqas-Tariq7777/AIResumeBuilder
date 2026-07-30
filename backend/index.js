@@ -66,15 +66,11 @@ mongoose
       `MONGODB Connected Successfully !! Host: ${connectionInstance.connection.host}`,
     );
 
-    // Start server only after DB connection succeeds if not running on Vercel serverless
-    if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
-      app.listen(port, () => {
-        console.log("Server is successfully running on port: ", port);
-      });
-    }
+    // Start server only after DB connection succeeds
+    app.listen(port, () => {
+      console.log("Server is successfully running on port: ", port);
+    });
   })
   .catch((error) => {
     console.log("MongoDB connection Failed:", error);
   });
-
-export default app;

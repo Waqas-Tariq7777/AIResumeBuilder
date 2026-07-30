@@ -28,71 +28,61 @@ const enhanceResumeText = asyncHandler(async (req, res) => {
         instruction = "Improve this project description for a resume. Highlight technologies used, impact, and achievements, make it concise, professional, and ATS-friendly. Return ONLY the improved project description, with no extra formatting, quotes, markdown labels, introduction, or explanations.";
     }
 
-    const models = ["gemini-2.5-flash", "gemini-3.5-flash"];
-    let lastError = null;
-    let enhancedText = null;
+    try {
+        const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: `${instruction}\n\nOriginal Text:\n${text}`
+                                }
+                            ]
+                        }
+                    ]
+                })
+            }
+        );
 
-    for (const model of models) {
-        try {
-            console.log(`Attempting text enhancement using Gemini model: ${model}`);
-            const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        contents: [
-                            {
-                                parts: [
-                                    {
-                                        text: `${instruction}\n\nOriginal Text:\n${text}`
-                                    }
-                                ]
-                            }
-                        ]
-                    })
-                }
+        if (!response.ok) {
+            const errData = await response.json();
+            throw new ApiError(
+                response.status,
+                errData?.error?.message || "Error response from Gemini API"
             );
-
-            if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                throw new Error(errData?.error?.message || `HTTP error ${response.status} from Gemini API`);
-            }
-
-            const data = await response.json();
-            const textResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (textResponse) {
-                enhancedText = textResponse;
-                break;
-            }
-        } catch (error) {
-            console.warn(`Failed to generate content with ${model}:`, error.message);
-            lastError = error;
         }
-    }
 
-    if (!enhancedText) {
-        console.error("Gemini AI Enhancement Error: All models failed.", lastError?.message);
+        const data = await response.json();
+        const enhancedText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!enhancedText) {
+            throw new ApiError(500, "Failed to retrieve enhanced text from Gemini API response");
+        }
+
+        // Clean up wrapping quotes or backticks if any
+        let cleanedText = enhancedText.trim();
+        if (cleanedText.startsWith('"') && cleanedText.endsWith('"')) {
+            cleanedText = cleanedText.slice(1, -1).trim();
+        }
+        if (cleanedText.startsWith('`') && cleanedText.endsWith('`')) {
+            cleanedText = cleanedText.slice(1, -1).trim();
+        }
+
+        return res.status(200).json(
+            new ApiResponse(200, { enhancedText: cleanedText }, "Text enhanced successfully")
+        );
+    } catch (error) {
+        console.error("Gemini AI Enhancement Error:", error.message);
         throw new ApiError(
-            503,
-            lastError?.message || "All Gemini API models are currently experiencing high demand. Please try again later."
+            error.statusCode || 500,
+            error.message || "Error occurred while enhancing text using Gemini AI"
         );
     }
-
-    // Clean up wrapping quotes or backticks if any
-    let cleanedText = enhancedText.trim();
-    if (cleanedText.startsWith('"') && cleanedText.endsWith('"')) {
-        cleanedText = cleanedText.slice(1, -1).trim();
-    }
-    if (cleanedText.startsWith('`') && cleanedText.endsWith('`')) {
-        cleanedText = cleanedText.slice(1, -1).trim();
-    }
-
-    return res.status(200).json(
-        new ApiResponse(200, { enhancedText: cleanedText }, "Text enhanced successfully")
-    );
 });
 
 export { enhanceResumeText };

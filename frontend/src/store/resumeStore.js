@@ -88,31 +88,5 @@ export const useResumeStore = create((set, get) => ({
       set({ loading: false });
       toast.error(error.response?.data?.message || "Failed to delete resume");
     }
-  },
-
-  uploadExistingResume: async (file, onSuccess) => {
-    set({ loading: true });
-    try {
-      const formData = new FormData();
-      formData.append("resumeFile", file);
-      const res = await axios.post(`${baseUrl}/api/v1/resumes/upload-existing`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        },
-        withCredentials: true
-      });
-      if (res.status === 201) {
-        const newResume = res.data?.data;
-        set((state) => ({
-          resumes: [newResume, ...state.resumes],
-          loading: false
-        }));
-        toast.success("Resume parsed and uploaded successfully!");
-        if (onSuccess) onSuccess(newResume);
-      }
-    } catch (error) {
-      set({ loading: false });
-      toast.error(error.response?.data?.message || "Failed to parse and upload resume");
-    }
   }
 }));

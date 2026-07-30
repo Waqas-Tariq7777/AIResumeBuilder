@@ -406,34 +406,34 @@ export default function ResumeBuilder() {
     <div className="bg-zinc-950 text-white min-h-screen flex flex-col justify-between">
       
       {/* Builder Top Bar */}
-      <header className="fixed top-0 left-0 right-0 z-40 py-3 sm:py-4 bg-zinc-950 border-b border-zinc-900 shadow-[0_4px_25px_rgba(0,0,0,0.5)]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center sm:justify-between gap-3 sm:gap-4">
+      <header className="fixed top-0 left-0 right-0 z-40 py-4 bg-zinc-950 border-b border-zinc-900 shadow-[0_4px_25px_rgba(0,0,0,0.5)]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           
-          <div className="flex items-center justify-between sm:justify-start gap-4 w-full sm:w-auto min-w-0">
+          <div className="flex items-center gap-4 min-w-0">
             <Link 
               to="/dashboard"
-              className="p-2 border border-zinc-800 bg-zinc-950 rounded-xl hover:border-zinc-700 hover:text-zinc-200 transition-colors shrink-0"
+              className="p-2 border border-zinc-800 bg-zinc-950 rounded-xl hover:border-zinc-700 hover:text-zinc-200 transition-colors"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
             </Link>
-            <div className="min-w-0 flex-grow">
+            <div className="min-w-0">
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                className="bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500 text-base sm:text-lg font-black text-white focus:outline-none transition-colors truncate w-full max-w-[240px]"
+                className="bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500 text-lg font-black text-white focus:outline-none transition-colors truncate max-w-[200px] sm:max-w-xs"
                 title="Rename Resume"
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0 shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
             {/* View Button */}
             <button
               onClick={() => window.open(`/resume-view/${id}`, "_blank")}
-              className="px-2.5 sm:px-4 py-2 border border-zinc-800 bg-zinc-950 text-[10px] sm:text-xs font-bold rounded-xl sm:rounded-2xl text-emerald-400 border-emerald-500/30 hover:border-emerald-500 hover:bg-zinc-900 transition-all cursor-pointer whitespace-nowrap"
+              className="px-3 sm:px-4 py-2 border border-zinc-800 bg-zinc-950 text-xs font-bold rounded-2xl text-emerald-400 border-emerald-500/30 hover:border-emerald-500 hover:bg-zinc-900 transition-all cursor-pointer"
             >
               <span>View</span>
             </button>
@@ -441,7 +441,7 @@ export default function ResumeBuilder() {
             {/* Choose Template Button */}
             <button
               onClick={() => setIsTemplateModalOpen(true)}
-              className="px-2.5 sm:px-4 py-2 border border-zinc-800 bg-zinc-950 text-[10px] sm:text-xs font-bold rounded-xl sm:rounded-2xl hover:border-zinc-700 hover:bg-zinc-900 transition-all cursor-pointer whitespace-nowrap"
+              className="px-3 sm:px-4 py-2 border border-zinc-800 bg-zinc-950 text-xs font-bold rounded-2xl hover:border-zinc-700 hover:bg-zinc-900 transition-all cursor-pointer"
             >
               <span className="hidden sm:inline">Choose Template</span>
               <span className="sm:hidden">Template</span>
@@ -451,10 +451,10 @@ export default function ResumeBuilder() {
             <div className="relative">
               <button
                 onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
-                className="flex items-center gap-1.5 px-2.5 sm:px-4 py-2 border border-zinc-800 bg-zinc-950 text-[10px] sm:text-xs font-bold rounded-xl sm:rounded-2xl hover:border-zinc-700 hover:bg-zinc-900 transition-all cursor-pointer whitespace-nowrap"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 border border-zinc-800 bg-zinc-950 text-xs font-bold rounded-2xl hover:border-zinc-700 hover:bg-zinc-900 transition-all cursor-pointer"
               >
                 <span 
-                  className="h-3 w-3 rounded-full border border-zinc-750 shrink-0" 
+                  className="h-3.5 w-3.5 rounded-full border border-zinc-750" 
                   style={{ backgroundColor: formData.accentColor }}
                 ></span>
                 <span className="hidden sm:inline">Accent Color</span>
@@ -479,7 +479,7 @@ export default function ResumeBuilder() {
                       <button
                         key={col.hex}
                         onClick={() => changeColor(col.hex)}
-                        className="h-7 w-7 rounded-full border border-zinc-850 cursor-pointer focus:outline-none transition-transform hover:scale-110 active:scale-95"
+                        className="h-7 w-7 rounded-full border border-zinc-800 cursor-pointer focus:outline-none transition-transform hover:scale-110 active:scale-95"
                         style={{ backgroundColor: col.hex }}
                         title={col.label}
                       ></button>
@@ -492,10 +492,10 @@ export default function ResumeBuilder() {
             {/* Save Button */}
             <button
               onClick={() => saveCurrentData(false)}
-              className="relative group overflow-hidden rounded-xl sm:rounded-2xl p-[1px] transition-transform duration-300 active:scale-95 cursor-pointer shrink-0"
+              className="relative group overflow-hidden rounded-2xl p-[1px] transition-transform duration-300 active:scale-95 cursor-pointer shrink-0"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 opacity-90 group-hover:opacity-100 transition-opacity"></span>
-              <span className="relative block rounded-[11px] sm:rounded-[15px] bg-zinc-950 px-3.5 sm:px-5 py-2 text-[10px] sm:text-xs font-bold text-white transition-all duration-200 group-hover:bg-zinc-950/40 whitespace-nowrap">
+              <span className="relative block rounded-[15px] bg-zinc-950 px-4 sm:px-5 py-2 text-xs font-bold text-white transition-all duration-200 group-hover:bg-zinc-950/40">
                 Save
               </span>
             </button>
@@ -505,7 +505,7 @@ export default function ResumeBuilder() {
       </header>
 
       {/* Main Workspace Split layout */}
-      <main className="pt-[132px] sm:pt-20 flex-grow grid grid-cols-1 lg:grid-cols-12 items-stretch lg:h-[calc(100vh-80px)] overflow-y-auto lg:overflow-hidden">
+      <main className="pt-20 flex-grow grid grid-cols-1 lg:grid-cols-12 items-stretch lg:h-[calc(100vh-80px)] overflow-y-auto lg:overflow-hidden">
         
         {/* Left Column: Form Fields & Wizard */}
         <section className="lg:col-span-6 border-r border-zinc-900 flex flex-col lg:h-full min-h-0 bg-zinc-950/40 backdrop-blur-xl justify-between">

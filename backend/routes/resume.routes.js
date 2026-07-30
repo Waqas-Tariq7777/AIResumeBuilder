@@ -1,14 +1,13 @@
 import { Router } from "express";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { uploadPic, uploadDoc } from "../middlewares/uploadImage.middleware.js";
+import { uploadPic } from "../middlewares/uploadImage.middleware.js";
 import {
     createResume,
     getUserResumes,
     getResumeById,
     updateResume,
     deleteResume,
-    uploadProfileImage,
-    uploadExistingResume
+    uploadProfileImage
 } from "../controllers/resume.controller.js";
 
 const router = Router();
@@ -17,7 +16,6 @@ const router = Router();
 router.use(verifyJWT);
 
 router.post("/upload-image", uploadPic.single("image"), uploadProfileImage);
-router.post("/upload-existing", uploadDoc.single("resumeFile"), uploadExistingResume);
 
 router.route("/")
     .post(createResume)
